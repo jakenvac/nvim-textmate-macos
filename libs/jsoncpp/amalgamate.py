@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """Amalgamate json-cpp library sources into a single source and header file.
 
 Works with python2.6+ and python3.4+.

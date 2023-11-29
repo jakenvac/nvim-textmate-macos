@@ -1,29 +1,23 @@
 local Map = require("nvim-textmate.colormap")
 
 local info = debug.getinfo(1, "S")
-local cpath = package.cpath
 
 local local_path = info.source:gsub("init.lua", ""):gsub("@", "")
 
-package.cpath = package.cpath .. ";" .. local_path .. "textmate.so"
+function safeRequireTextmate()
+	local lib = local_path .. "textmate.dylib"
+	local func_name = "luaopen_textmate"
+	local ltmOk, loadTextMate = pcall(package.loadlib, lib, func_name)
+	if ltmOk then
+		return pcall(loadTextMate)
+	end
+	return false, nil
+end
 
-local ok, module = pcall(require, "textmate")
-
-package.cpath = cpath
-
+local ok, module = safeRequireTextmate()
 if not ok then
-	return {
-		setup = function(parameters)
-			vim.defer_fn(function()
-				local target_path = local_path .. "../../"
-				print("Configuring textmate module...")
-				vim.fn.system({ "make", "prebuild", "-C", target_path })
-				print("Compiling textmate module...")
-				vim.fn.system({ "make", "build", "-C", target_path })
-				print("Done. Restart neovim.")
-			end, 500)
-		end,
-	}
+	print("Must build textmate module. See readme.")
+	return
 end
 
 local scope_hl_map = Map.scope_hl_map

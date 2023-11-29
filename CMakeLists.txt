@@ -75,9 +75,11 @@ target_include_directories(onigmolib
     ./libs/Onigmo/enc/unicode
 )
 
-find_package(Lua REQUIRED)
-set(LUA_PREFERRED_INCLUDE_DIRS ${LUAINCLUDE_DIRS})
-set(LUA_PREFERRED_LIBRARIES ${LUALIBRARIES})
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LUA REQUIRED luajit)
+
+include_directories(${LUA_INCLUDE_DIRS})
+link_directories(${LUA_LIBRARY_DIRS})
 
 add_library(textmate
   SHARED 
@@ -99,7 +101,7 @@ add_library(textmate
   ./libs/tm-parser/textmate/extensions/extension.cpp
   ./libs/tm-parser/textmate/resources/themes.cpp
   ./libs/tm-parser/textmate/resources/grammars.cpp
-  ${LUA_PREFERRED_INCLUDE_DIRS}
+  ${LUA_INCLUDE_DIRS}
 )
 
 target_include_directories(textmate 
@@ -120,4 +122,4 @@ target_include_directories(textmate
 set_target_properties(textmate PROPERTIES PREFIX "")
 # set_target_properties(textmate PROPERTIES OUTPUT_NAME "textmate")
 
-target_link_libraries(textmate ${LUA_PREFERRED_LIBRARIES} onigmolib)
+target_link_libraries(textmate ${LUA_LIBRARIES} onigmolib)

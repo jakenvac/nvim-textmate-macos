@@ -19,10 +19,10 @@ This plugin uses a native module and must first be compiled.
 > Run these commands in the installed location of your plugin.
 > For example with lazy.nvim as your plugin manager: `~/share/nvim/lazy/nvim-textmate-macos`
 
-Firstly, ensure you have `luajit`, `cmake` & `pkg-config` installed:
+Firstly, ensure you have `python`, `luajit`, `cmake` & `pkg-config` installed:
 
 ```sh
-brew install luajit cmake pkg-config
+brew install luajit cmake pkg-config python
 ```
 
 Next, make sure homebrew libraries are available to pkg-config:
@@ -39,7 +39,7 @@ make
 
 You can make sure the build output is in the right place with:
 ```sh
-stat ./lua/nvim-textmate/textmate.dylib
+stat ./lua/nvim-textmate-macos/textmate.dylib
 ```
 
 ## Config with lazy.nvim
@@ -64,7 +64,7 @@ return {
         "brew install luajit cmake pkg-config",
         'export PKG_CONFIG_PATH="$(brew --prefix)"/lib/pkg-config:$PKG_CONFIG_PATH',
         "make"
-        "stat ./lua/nvim-textmate/textmate.dylib"
+        "stat ./lua/nvim-textmate-macos/textmate.dylib"
     },
     -- It is recommended to only load for required file types due to potential slowdown
     ft = {

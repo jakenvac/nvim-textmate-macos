@@ -1,4 +1,4 @@
-local Map = require("nvim-textmate.colormap")
+local Map = require("nvim-textmate-macos.colormap")
 
 local info = debug.getinfo(1, "S")
 
